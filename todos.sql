@@ -30,7 +30,8 @@ CREATE TABLE app_todos.users (
   username nvarchar(35),
   password nvarchar(256),
   active bit,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE (username)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 INSERT INTO users (id, username, password, active) VALUES
