@@ -5,6 +5,7 @@ export const logger: Logger = createLogger({
   level: 'info',
   format: format.combine(
     format.label({ label: 'ToDoApp' }),
+    format.colorize(),
     format.timestamp(),
     format.printf(({ level, message, label, timestamp }) => `${timestamp} [${label}] ${level}: ${message}`)
   ),
