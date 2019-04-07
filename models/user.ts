@@ -71,7 +71,7 @@ export class UserManager {
       .where({
         username: username
       })
-      .first('username', 'password');
+      .first('id', 'username', 'password');
 
     if (user == null) {
       throw new Error('Tài khoản hoặc mật khẩu không đúng!');

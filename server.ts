@@ -1,5 +1,5 @@
-import { logger } from "./config/logger";
-import { app } from "./config/express";
+import { app } from './config/express';
+import { logger } from './config/logger';
 
 logger.info('Làm việc với Winston!');
 
