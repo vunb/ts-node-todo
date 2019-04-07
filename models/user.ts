@@ -1,5 +1,5 @@
-import * as bcrypt from "bcryptjs";
-import { db } from "../config/knex";
+import * as bcrypt from 'bcryptjs';
+import { db } from '../config/knex';
 
 // create user model.
 export interface User {
@@ -28,7 +28,7 @@ export class UserManager {
    * Tìm thông tin tài khoản theo username
    * @param username
    */
-  async findByUserName(username: string) {
+  async findByUserName(username: string): Promise<User> {
     const result = await db(this.tbName)
       .where({
         username: username
@@ -36,7 +36,7 @@ export class UserManager {
       .select('username', 'password');
 
       // get first result
-      return result.find(() => true);
+    return result.find(() => true);
   }
 
   createUser(username: string, password: string) {
@@ -44,7 +44,7 @@ export class UserManager {
     return new Promise((resolve, reject) => {
       bcrypt.hash(password, 10, async (err, hash) => {
         const vResult = await db(this.tbName).insert({
-          username: username,
+          username,
           password: hash,
           active: 1
         });
