@@ -33,6 +33,19 @@ export class UserController {
       res.status(500).send(err);
     }
   }
+
+  async createUser(req: Request, res: Response) {
+    req.checkBody("username", "The username cannot be empty").notEmpty();
+    req.checkBody("password", "The password cannot be empty").notEmpty();
+
+    let errors = req.validationErrors();
+    if (errors) throw errors;
+
+    await userManager.createUser(req.body.username, req.body.password);
+    res.json({
+      message: "Ok"
+    });
+  }
 }
 
 export const userCtrl = new UserController();

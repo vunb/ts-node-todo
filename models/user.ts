@@ -1,3 +1,4 @@
+import * as bcrypt from "bcryptjs";
 import { db } from "../config/knex";
 
 // create user model.
@@ -36,6 +37,25 @@ export class UserManager {
 
       // get first result
       return result.find(() => true);
+  }
+
+  createUser(username: string, password: string) {
+
+    return new Promise((resolve, reject) => {
+      bcrypt.hash(password, 10, async (err, hash) => {
+        const vResult = await db(this.tbName).insert({
+          username: username,
+          password: hash,
+          active: 1
+        });
+
+        if (err) {
+          reject(err);
+        } else {
+          resolve(vResult);
+        }
+      });
+    });
   }
 
 }

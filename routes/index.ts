@@ -6,12 +6,9 @@ import { userRouter } from './user.routes';
 export function routes(app: Express) {
   app.get("/", (req, res) => res.send('Ok'));
 
-  app.get("/testdb", async (req, res) => {
-    const result = await db('todos');
-
-    res.json(result);
-  });
-
+  /**
+   * Định tuyến các controller
+   */
   app.use('/user', userRouter());
 
   // If no route is matched by now, it must be a 404
