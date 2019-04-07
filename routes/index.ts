@@ -1,4 +1,4 @@
-import {Express, Request, Response} from "express";
+import {Express, Request, Response, NextFunction} from "express";
 import { logger } from "../config/logger";
 
 export function routes(app: Express) {
@@ -13,7 +13,7 @@ export function routes(app: Express) {
   });
 
   // Handle application error
-  app.use((error: any, req: Request, res: Response, next:Function) => {
+  app.use((error: any, req: Request, res: Response, next: NextFunction) => {
     logger.error("We got an error!", error);
 
     if (process.env.NODE_ENV === "production") {
