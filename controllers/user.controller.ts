@@ -32,16 +32,24 @@ export class UserController {
   }
 
   async createUser(req: Request, res: Response) {
-    req.checkBody('username', 'The username cannot be empty').notEmpty();
-    req.checkBody('password', 'The password cannot be empty').notEmpty();
+    try {
+      req.checkBody('username', 'The username cannot be empty').notEmpty();
+      req.checkBody('password', 'The password cannot be empty').notEmpty();
 
-    const errors = req.validationErrors();
-    if (errors) { throw errors; }
+      const errors = req.validationErrors();
+      if (errors) { throw errors; }
 
-    await userManager.createUser(req.body.username, req.body.password);
-    res.json({
-      message: 'Ok'
-    });
+      await userManager.createUser(req.body.username, req.body.password);
+      res.json({
+        message: 'Ok'
+      });
+    } catch (error) {
+      const err: Error = error;
+      logger.error('Có lỗi xảy ra: ' + err.message);
+      res.status(409).json({
+        message: err.message
+      });
+    }
   }
 }
 

@@ -1,16 +1,16 @@
-import { any } from 'bluebird';
-import * as config from 'config';
+import {get as getConfig, has} from 'config';
 import { Request, Response } from 'express';
 import * as jwt from 'jwt-simple';
 import * as moment from 'moment';
 import * as passport from 'passport';
 import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
+import { logger } from '../config/logger';
 import { userManager, User } from '../models/user';
 
 /**
  * Secret key
  */
-const JWT_SECRET: string = process.env.JWT_SECRET || config.get('auth.JWT_SECRET');
+const JWT_SECRET: string = process.env.JWT_SECRET || getConfig('auth.JWT_SECRET');
 
 /**
  * Controller sử dụng cho việc xác thực Jwt
@@ -64,6 +64,11 @@ export class AuthController {
         exp: expires,
         username: user.username
       }, JWT_SECRET);
+    return {
+      token: 'JWT ' + token,
+      expires: moment.unix(expires).format(),
+      user: user.id
+    };
   }
 
   public initialize() {
@@ -88,6 +93,8 @@ export class AuthController {
         throw errors;
       }
 
+      logger.info('Kiểm tra đăng nhập tài khoản: ' + req.body.username);
+
       const vUser = await userManager.verifyUsernameAndPassword(
         req.body.username,
         req.body.password
@@ -97,6 +104,7 @@ export class AuthController {
       res.json(token);
 
     } catch (err) {
+      logger.error('Lỗi kiểm tra xác thực: ' + err);
       res.status(401).json({
         message: 'Invalid credentials',
         errors: err

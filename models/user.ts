@@ -29,17 +29,20 @@ export class UserManager {
    * @param username
    */
   async findByUserName(username: string): Promise<User> {
-    const result = await db(this.tbName)
+    return await db(this.tbName)
       .where({
         username: username
       })
-      .select('username', 'password');
-
-      // get first result
-    return result.find(() => true);
+      .first('username', 'password');
   }
 
-  createUser(username: string, password: string) {
+  async createUser(username: string, password: string) {
+
+    // kiểm tra user đã tồn tại chưa?
+    const vUser = await this.findByUserName(username);
+    if (vUser != null) {
+      throw new Error('Đã tồn tại tài khoản: ' + username);
+    }
 
     return new Promise((resolve, reject) => {
       bcrypt.hash(password, 10, async (err, hash) => {
