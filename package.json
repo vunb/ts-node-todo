@@ -4,7 +4,9 @@
   "description": "Node Todo App with Express and TypeScript",
   "main": "dist/config/express.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "express-validator": "^5.3.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
