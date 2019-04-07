@@ -58,6 +58,36 @@ export class UserManager {
     });
   }
 
+  /**
+   * Kiểm tra tài khoản và mật khẩu người dùng
+   * @param username
+   * @param password
+   */
+  async verifyUsernameAndPassword(username: string, password: string): Promise<User> {
+    const user: User = await db(this.tbName)
+      .where({
+        username: username
+      })
+      .first('username', 'password');
+
+    if (user == null) {
+      throw new Error('Tài khoản hoặc mật khẩu không đúng!');
+    }
+
+    // kiểm tra mật khẩu
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(password, user.password, (err: Error, success: boolean) => {
+        if (err) {
+          return reject(err);
+        } else if (!success) {
+          return reject('Tài khoản hoặc mật khẩu không đúng!');
+        } else {
+          return resolve(user);
+        }
+      });
+    });
+  }
+
 }
 
 export const userManager = new UserManager();
