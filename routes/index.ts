@@ -1,16 +1,18 @@
 import {Express, Request, Response, NextFunction} from "express";
 import { logger } from "../config/logger";
 import { db } from "../config/knex";
+import { userRouter } from './user.routes';
 
 export function routes(app: Express) {
   app.get("/", (req, res) => res.send('Ok'));
 
   app.get("/testdb", async (req, res) => {
     const result = await db('todos');
-    logger.info('Data: ', result);
 
     res.json(result);
   });
+
+  app.use('/user', userRouter());
 
   // If no route is matched by now, it must be a 404
   app.use((req, res, next) => {
