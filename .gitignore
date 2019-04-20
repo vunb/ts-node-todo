@@ -63,3 +63,4 @@ typings/
 # vunb todo app
 production.yaml
 development.yaml
+dist

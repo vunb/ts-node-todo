@@ -33,7 +33,7 @@ export class UserManager {
       .where({
         username: username
       })
-      .first('username', 'password');
+      .first('id', 'username', 'password');
   }
 
   async createUser(username: string, password: string) {

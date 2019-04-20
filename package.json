@@ -16,6 +16,7 @@
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "typescript": "^3.4.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -29,16 +30,14 @@
     "nodemon": "^1.18.10",
     "ts-node": "^8.0.3",
     "ts-node-dev": "^1.0.0-pre.32",
-    "tslint": "^5.15.0",
-    "typescript": "^3.4.2"
+    "tslint": "^5.15.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run start:dev",
     "start": "npm run start:prod",
     "start:dev": "ts-node-dev --respawn --transpileOnly ./server.ts",
-    "start:prod": "tsc && node ./dist/server.js",
-    "tsc": "tsc",
+    "start:prod": "npm run build && node ./dist/server.js",
     "build": "tsc"
   },
   "repository": {
