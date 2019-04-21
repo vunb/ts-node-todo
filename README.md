@@ -19,6 +19,12 @@ Start app in production mode
 * Passport-jwt `^4.0.0`
 * winston `^3.2.1`
 
+# HELP
+
+Link to project frontend
+  
+  * `git submodule add git@github.com:vunb/frontend-angular.git frontend`
+
 # LICENSE
 
 MIT
