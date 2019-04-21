@@ -37,7 +37,7 @@ CREATE TABLE app_todos.todos (
 INSERT INTO todos (id, text, isDone, createdAt, userId) VALUES
 (1, 'Kết nối db mongodb', true, NOW(), 1),
 (2, 'Kết nối db mysql', false, NOW(), 1),
-(3, 'Viết ứng dụng node ToDo', false, NOW(), 1),
+(3, 'Viết ứng dụng node ToDo', false, NOW(), 3),
 (4, 'Tích hợp font-end', false, NOW(), 2);
 
 SELECT * FROM app_todos.users;

@@ -35,10 +35,10 @@ export function routes(app: Express) {
   app.get('/', (req, res) => res.send('Ok'));
 
   /**
-   * Định tuyến các controller
+   * Định tuyến các api controller
    */
-  app.use('/user', userRouter());
   app.use('/auth', authRouter());
+  app.use('/user', userRouter());
   app.use('/todo', todoRouter());
 
   // If no route is matched by now, it must be a 404

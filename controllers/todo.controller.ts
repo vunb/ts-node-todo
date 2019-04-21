@@ -44,6 +44,9 @@ export class ToDoController {
       req.checkBody('text', 'Todo description cannot be empty').notEmpty();
       req.checkBody('isDone', 'Todo status cannot be empty').notEmpty();
 
+      const errors = req.validationErrors();
+      if (errors) { throw errors; }
+
       const vUser = req.app.get('user') as User;
 
       logger.info('Create todo: ' + vUser.id);
