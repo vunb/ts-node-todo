@@ -1,4 +1,4 @@
-import {Logger, createLogger, transports, format} from "winston";
+import {createLogger, format, transports, Logger} from 'winston';
 
 export const logger: Logger = createLogger({
   exitOnError: false,
@@ -12,7 +12,7 @@ export const logger: Logger = createLogger({
   transports: [
     new transports.Console(),
     new transports.File({
-      filename: 'logs/combined.log'
+      filename: 'logs/info.log'
     })
   ]
 });

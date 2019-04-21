@@ -1,2 +1,3 @@
 auth:
+  # Ref: https://www.lastpass.com/password-generator
   JWT_SECRET: 'Ox#y4jIZspQc6IQyqxvNMU8U*'

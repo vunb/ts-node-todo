@@ -59,3 +59,8 @@ typings/
 
 # next.js build output
 .next
+
+# vunb todo app
+production.yaml
+development.yaml
+dist

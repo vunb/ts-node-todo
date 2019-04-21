@@ -1,4 +1,4 @@
-import knex from "knex";
+import knex from 'knex';
 
 const db = knex({
   client: 'mysql',
@@ -10,4 +10,4 @@ const db = knex({
   }
 });
 
-export { db }
+export { db };

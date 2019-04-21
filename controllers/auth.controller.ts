@@ -1,16 +1,7 @@
-import {get as getConfig, has} from 'config';
 import { Request, Response } from 'express';
-import * as jwt from 'jwt-simple';
-import * as moment from 'moment';
-import * as passport from 'passport';
-import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { logger } from '../config/logger';
+import { getToken } from '../config/passport';
 import { userManager, User } from '../models/user';
-
-/**
- * Secret key
- */
-const JWT_SECRET: string = process.env.JWT_SECRET || getConfig('auth.JWT_SECRET');
 
 /**
  * Controller sử dụng cho việc xác thực Jwt
@@ -22,65 +13,6 @@ const JWT_SECRET: string = process.env.JWT_SECRET || getConfig('auth.JWT_SECRET'
 export class AuthController {
   constructor() {
 
-  }
-
-  private getStrategy(): Strategy {
-    const params = {
-      secretOrKey: JWT_SECRET,
-      jwtFromRequest: ExtractJwt.fromAuthHeader(),
-      passReqToCallback: true
-    };
-
-    return new Strategy(params, async (req: Request, payload: any, done: VerifiedCallback) => {
-      try {
-        const username = payload.username;
-        const vUser = await userManager.findByUserName(username);
-
-        if (vUser == null) {
-          return done(null, false, {
-            message: `Không tồn tại user ${username}`
-          });
-        } else {
-          return done(null, {
-            id: vUser.id,
-            username: vUser.username
-          });
-        }
-
-      } catch (err) {
-          done(err);
-      }
-    });
-
-  }
-
-  private getToken(user: User) {
-    const expires = moment.utc().add({
-        days: 7
-      })
-      .unix();
-
-    const token = jwt.encode({
-        exp: expires,
-        username: user.username
-      }, JWT_SECRET);
-    return {
-      token: 'JWT ' + token,
-      expires: moment.unix(expires).format(),
-      user: user.id
-    };
-  }
-
-  public initialize() {
-    passport.use('jwt', this.getStrategy());
-    return passport.initialize();
-  }
-
-  public authenticate(callback: (...args: any[]) => any) {
-    return passport.authenticate('jwt', {
-      failWithError: true,
-      session: false
-    }, callback);
   }
 
   async login(req: Request, res: Response) {
@@ -100,7 +32,7 @@ export class AuthController {
         req.body.password
       );
 
-      const token = this.getToken(vUser);
+      const token = getToken(vUser);
       res.json(token);
 
     } catch (err) {
